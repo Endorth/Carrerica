@@ -5,6 +5,7 @@
 
 [node name="GreenSnail" instance=ExtResource( 2 )]
 initial_position = Vector2( 32, 149 )
+team = "g"
 
 [node name="Sprite" parent="." index="0"]
 texture = ExtResource( 1 )

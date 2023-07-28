@@ -19,8 +19,8 @@ func update_users():
 
 func enter_action(msg):
 	var r = randi() % 10
-#	var user = 'endorth' + str(r)
-	var user = 'endorth4'
+	var user = 'endorth' + str(r)
+#	var user = 'endorth4'
 	if is_new_player(user):
 		if msg.begins_with("!join "):
 			msg.erase(0, 6)

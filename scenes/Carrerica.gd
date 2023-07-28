@@ -1,5 +1,6 @@
 extends Node2D
 
+const TEAMLAB = preload("res://scenes/TeamLabel.tscn")
 onready var purple = $Snails/PurpleSnail
 onready var blue = $Snails/BlueSnail
 onready var red = $Snails/RedSnail
@@ -25,11 +26,77 @@ var movement : Vector2 = Vector2(96.0, 0.0)
 var game_is_running : bool = false
 
 func _ready():
-	game_is_running = true
+	$TeamPanel.visible = false
+	$WinPanel.visible = false
+	for lab in $TeamPanel/ScrollContainer/VBoxContainer.get_children():
+		$TeamPanel/ScrollContainer/VBoxContainer.remove_child(lab)
+	
+	for but in $teamscont.get_children():
+		but.connect("was_pressed", self, "show_team")
 
+func show_team(but, bol):
+	if bol:
+		for b in $teamscont.get_children():
+			if b != but:
+				b.pressed = false
+	
+	$TeamPanel.visible = bol
+	fill_teams(but.t)
+	
+func fill_teams(c):
+	for lab in $TeamPanel/ScrollContainer/VBoxContainer.get_children():
+		$TeamPanel/ScrollContainer/VBoxContainer.remove_child(lab)
+	match c:
+		'b' : 
+			for pl in CDB.blue_players:
+				add_team_lab(pl, true)
+		'r' : 
+			for pl in CDB.red_players:
+				add_team_lab(pl, true)
+		'g' : 
+			for pl in CDB.green_players:
+				add_team_lab(pl, true)
+		'y' : 
+			for pl in CDB.yellow_players:
+				add_team_lab(pl, true)
+		'p' : 
+			for pl in CDB.purple_players:
+				add_team_lab(pl, true)
+			
+func add_team_lab(pl, bol):
+	var l = TEAMLAB.instance()
+	l.user = pl
+	if bol:
+		$TeamPanel/ScrollContainer/VBoxContainer.add_child(l)
+	else:
+		$WinPanel/ScrollContainer/VBoxContainer.add_child(l)
+	
 func snail_wins(snail):
 	game_is_running = false
-	print(snail, " wins")
+	var team = ''
+	var winners = []
+	match snail.team:
+		'b' : 
+			team = "BLUE"
+			winners = CDB.blue_players
+		'g' : 
+			team = "GREEN"
+			winners = CDB.green_players
+		'r' : 
+			team = "RED"
+			winners = CDB.red_players
+		'y' : 
+			team = "YELLOW"
+			winners = CDB.yellow_players
+		'p' : 
+			team = "PURPLE"
+			winners = CDB.purple_players
+	
+	$WinPanel/Label.text = team
+	for pl in winners:
+		add_team_lab(pl, false)
+	$WinPanel/TextureRect.texture = snail.sprite.texture
+	$WinPanel.visible = true
 
 func get_number(msg) -> int:
 	var n = int(msg)
@@ -106,8 +173,8 @@ func move_purple(user, msg):
 func enter_action(msg):
 	if game_is_running:
 		var r = randi()% 10
-#		var user = 'endorth' + str(r)
-		var user = 'endorth4'
+		var user = 'endorth' + str(r)
+#		var user = 'endorth4'
 		if not is_new_player(user):
 			var team = get_player_team(user)
 			match team:
@@ -155,5 +222,10 @@ func _on_MenuButton_pressed():
 
 
 func _on_StartButton_pressed():
+	game_is_running = true
+	$GUI/StartButton.disabled = true
+
+
+func _on_RestartButton_pressed():
 	# warning-ignore: return_value_discarded
 	get_tree().reload_current_scene()
