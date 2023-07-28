@@ -11,8 +11,18 @@ config_version=4
 [application]
 
 config/name="Carrerica"
-run/main_scene="res://scenes/Carrerica.tscn"
+run/main_scene="res://scenes/Menu.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+CDB="*res://scripts/CarrericaDB.gd"
+
+[display]
+
+window/size/height=200
+window/stretch/mode="2d"
+window/stretch/aspect="keep"
 
 [gui]
 
