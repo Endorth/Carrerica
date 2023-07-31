@@ -68,17 +68,6 @@ position = Vector2( 29, 117 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="SendButton" type="Button" parent="GUI"]
-margin_left = 920.0
-margin_top = 176.0
-margin_right = 963.0
-margin_bottom = 196.0
-text = "send"
-
-[node name="LineEdit" type="LineEdit" parent="GUI/SendButton"]
-margin_left = -100.0
-margin_bottom = 24.0
-
 [node name="MenuButton" type="TextureButton" parent="GUI"]
 margin_left = 940.0
 margin_top = 4.0
@@ -389,7 +378,6 @@ margin_bottom = 136.0
 margin_top = 140.0
 margin_bottom = 156.0
 
-[connection signal="pressed" from="GUI/SendButton" to="." method="_on_SendButton_pressed"]
 [connection signal="pressed" from="GUI/MenuButton" to="." method="_on_MenuButton_pressed"]
 [connection signal="pressed" from="GUI/StartButton" to="." method="_on_StartButton_pressed"]
 [connection signal="pressed" from="GUI/RestartButton" to="." method="_on_RestartButton_pressed"]

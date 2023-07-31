@@ -69,7 +69,7 @@ func fill_teams(c):
 		'p' : 
 			for pl in CDB.purple_players:
 				add_team_lab(pl, true)
-			
+
 func add_team_lab(pl, bol):
 	var l = TEAMLAB.instance()
 	l.user = pl
@@ -77,7 +77,7 @@ func add_team_lab(pl, bol):
 		$TeamPanel/ScrollContainer/VBoxContainer.add_child(l)
 	else:
 		$WinPanel/ScrollContainer/VBoxContainer.add_child(l)
-	
+
 func snail_wins(snail):
 	game_is_running = false
 	var team = ''
@@ -111,7 +111,7 @@ func get_number(msg) -> int:
 
 func return_to_start(snail):
 	snail.global_position = snail.initial_position
-	
+
 func move_blue(user, msg):
 	if user != blue_current_user:
 		var n = get_number(msg)
@@ -179,9 +179,6 @@ func move_purple(user, msg):
 
 func enter_action(user, msg):
 	if game_is_running:
-#		var r = randi()% 10
-#		var user = 'endorth' + str(r)
-#		var user = 'endorth4'
 		if not is_new_player(user):
 			var team = get_player_team(user)
 			match team:
@@ -190,9 +187,6 @@ func enter_action(user, msg):
 				'g' : move_green(user, msg)
 				'p' : move_purple(user, msg)
 				'y' : move_yellow(user, msg)
-#			print(user, "-", team, " : ", msg)
-				
-#		$GUI/SendButton/LineEdit.clear()
 
 func get_player_team(user) -> String:
 	var t = ''
@@ -219,9 +213,6 @@ func is_new_player(user) -> bool:
 	return b
 
 
-func _on_SendButton_pressed():
-	pass
-#	enter_action($GUI/SendButton/LineEdit.text)
 
 
 func _on_MenuButton_pressed():

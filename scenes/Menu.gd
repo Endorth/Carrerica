@@ -8,6 +8,12 @@ var ycount : int = 0
 
 func _ready():
 	$ConnectPanel.visible = false
+	
+	bcount = CDB.blue_players.size()
+	rcount = CDB.red_players.size()
+	pcount = CDB.purple_players.size()
+	gcount = CDB.green_players.size()
+	ycount = CDB.yellow_players.size()
 	update_users()
 	TwitchChat.connect("new_message", self, "send_data")
 
@@ -48,7 +54,7 @@ func enter_action(user, msg):
 					pcount += 1
 			
 			update_users()
-#	$SendButton/LineEdit.clear()
+
 
 func is_new_player(user) -> bool:
 	var b : bool = true
@@ -58,9 +64,6 @@ func is_new_player(user) -> bool:
 			break
 	return b
 
-func _on_SendButton_pressed():
-	pass
-#	enter_action($SendButton/LineEdit.text)
 
 func _on_StartButton_pressed():
 	# warning-ignore: return_value_discarded
@@ -75,3 +78,18 @@ func _on_TextureButton_pressed():
 
 	$ConnectPanel.visible = false
 	$ConnectButton.pressed = false
+
+
+func _on_ResetButton_pressed():
+	CDB.players = []
+	CDB.blue_players = []
+	CDB.red_players = []
+	CDB.purple_players = []
+	CDB.green_players = []
+	CDB.yellow_players = []
+	bcount = CDB.blue_players.size()
+	rcount = CDB.red_players.size()
+	pcount = CDB.purple_players.size()
+	gcount = CDB.green_players.size()
+	ycount = CDB.yellow_players.size()
+	update_users()

@@ -1,6 +1,7 @@
 extends Node
 
 # oauth-dev.seyacat.com client_id integration
+
 var client_id = "qhndxilvmmnsb8xq5jfmbvqk544opx"
 var ws
 var connected = false;
@@ -28,7 +29,6 @@ func _ws_connect():
 	ws.connect("data_received", self, "_on_data")
 	ws.connect("connection_established", self, "_connected")
 	ws.connect("connection_closed", self, "_closed")
-	#var err = ws.connect_to_url("wss://irc-ws.chat.twitch.tv:443");
 	
 	var err = ws.connect_to_url("ws://irc-ws.chat.twitch.tv:80");
 	
@@ -44,11 +44,11 @@ func _connected(proto = ""):
 	
 	ws.get_peer(1).set_write_mode(WebSocketPeer.WRITE_MODE_TEXT)
 	ws.get_peer(1).put_packet("CAP REQ :twitch.tv/membership twitch.tv/tags twitch.tv/commands".to_utf8())
+	
 	print(auth)
 	ws.get_peer(1).put_packet("PASS kappa".to_utf8())
 	ws.get_peer(1).put_packet("NICK justinfan12345".to_utf8())
 	ws.get_peer(1).put_packet(("JOIN #"+channel).to_utf8())
-	
 	
 	
 func _on_data():
@@ -59,7 +59,6 @@ func _on_data():
 		var d = pair.split("=");
 		if d.size() == 2:
 			data[d[0]]=d[1]
-	
 	
 	var regex = RegEx.new()
 	regex.compile("(?:(([a-zA-Z0-9_]*?)!([a-zA-Z0-9_]*?)@[a-zA-Z0-9_]*?.tmi.twitch.tv)|tmi.twitch.tv)\\s([A-Z]*?)?\\s#([^\\s]*)\\s{0,}:?(.*?)?$")
