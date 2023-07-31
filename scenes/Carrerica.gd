@@ -33,6 +33,13 @@ func _ready():
 	
 	for but in $teamscont.get_children():
 		but.connect("was_pressed", self, "show_team")
+	TwitchChat.connect("new_message", self, "send_data")
+
+func send_data(data):
+	if "username" in data:
+		var user = data["username"]
+		var msg = data["msg"]
+		enter_action(user, msg)
 
 func show_team(but, bol):
 	if bol:
@@ -170,10 +177,10 @@ func move_purple(user, msg):
 			purple_current_number = 0
 			return_to_start(purple)
 
-func enter_action(msg):
+func enter_action(user, msg):
 	if game_is_running:
-		var r = randi()% 10
-		var user = 'endorth' + str(r)
+#		var r = randi()% 10
+#		var user = 'endorth' + str(r)
 #		var user = 'endorth4'
 		if not is_new_player(user):
 			var team = get_player_team(user)
@@ -183,9 +190,9 @@ func enter_action(msg):
 				'g' : move_green(user, msg)
 				'p' : move_purple(user, msg)
 				'y' : move_yellow(user, msg)
-			print(user, "-", team, " : ", msg)
+#			print(user, "-", team, " : ", msg)
 				
-		$GUI/SendButton/LineEdit.clear()
+#		$GUI/SendButton/LineEdit.clear()
 
 func get_player_team(user) -> String:
 	var t = ''
@@ -213,7 +220,8 @@ func is_new_player(user) -> bool:
 
 
 func _on_SendButton_pressed():
-	enter_action($GUI/SendButton/LineEdit.text)
+	pass
+#	enter_action($GUI/SendButton/LineEdit.text)
 
 
 func _on_MenuButton_pressed():

@@ -17,6 +17,7 @@ config/icon="res://icon.png"
 [autoload]
 
 CDB="*res://scripts/CarrericaDB.gd"
+TwitchChat="*res://scripts/TwitchChat.gd"
 
 [display]
 

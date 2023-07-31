@@ -9,6 +9,14 @@ var ycount : int = 0
 func _ready():
 	$ConnectPanel.visible = false
 	update_users()
+	TwitchChat.connect("new_message", self, "send_data")
+
+func send_data(data):
+	if "username" in data:
+		var user = data["username"]
+		var msg = data["msg"]
+		msg = msg.left(msg.length() - 1)
+		enter_action(user, msg)
 	
 func update_users():
 	$bluecount.text = str(bcount)
@@ -17,10 +25,7 @@ func update_users():
 	$yellcount.text = str(ycount)
 	$greencount.text = str(gcount)
 
-func enter_action(msg):
-	var r = randi() % 10
-	var user = 'endorth' + str(r)
-#	var user = 'endorth4'
+func enter_action(user, msg):
 	if is_new_player(user):
 		if msg.begins_with("!join "):
 			msg.erase(0, 6)
@@ -43,9 +48,7 @@ func enter_action(msg):
 					pcount += 1
 			
 			update_users()
-
-
-	$SendButton/LineEdit.clear()
+#	$SendButton/LineEdit.clear()
 
 func is_new_player(user) -> bool:
 	var b : bool = true
@@ -55,11 +58,9 @@ func is_new_player(user) -> bool:
 			break
 	return b
 
-
-
 func _on_SendButton_pressed():
-	enter_action($SendButton/LineEdit.text)
-
+	pass
+#	enter_action($SendButton/LineEdit.text)
 
 func _on_StartButton_pressed():
 	# warning-ignore: return_value_discarded
@@ -69,5 +70,8 @@ func _on_ConnectButton_toggled(button_pressed):
 	$ConnectPanel.visible = button_pressed
 
 func _on_TextureButton_pressed():
+	TwitchChat.channel = $ConnectPanel/LineEdit.text
+	TwitchChat._anon_connection()
+
 	$ConnectPanel.visible = false
 	$ConnectButton.pressed = false
