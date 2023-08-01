@@ -93,3 +93,11 @@ func _on_ResetButton_pressed():
 	gcount = CDB.green_players.size()
 	ycount = CDB.yellow_players.size()
 	update_users()
+
+
+func _on_ExitButton_pressed():
+	get_tree().quit()
+
+
+func _on_BorderButton_toggled(button_pressed):
+	OS.window_borderless = button_pressed
